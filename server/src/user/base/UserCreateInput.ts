@@ -11,10 +11,14 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsOptional } from "class-validator";
+import { IsString, IsOptional, ValidateNested } from "class-validator";
 import { IsJSONValue } from "@app/custom-validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
+import { ListingCreateNestedManyWithoutUsersInput } from "./ListingCreateNestedManyWithoutUsersInput";
+import { Type } from "class-transformer";
+import { WhishlistCreateNestedManyWithoutUsersInput } from "./WhishlistCreateNestedManyWithoutUsersInput";
+import { TripCreateNestedManyWithoutUsersInput } from "./TripCreateNestedManyWithoutUsersInput";
 
 @InputType()
 class UserCreateInput {
@@ -62,6 +66,42 @@ class UserCreateInput {
   @IsJSONValue()
   @Field(() => GraphQLJSON)
   roles!: InputJsonValue;
+
+  @ApiProperty({
+    required: false,
+    type: () => ListingCreateNestedManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => ListingCreateNestedManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => ListingCreateNestedManyWithoutUsersInput, {
+    nullable: true,
+  })
+  listings?: ListingCreateNestedManyWithoutUsersInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => WhishlistCreateNestedManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => WhishlistCreateNestedManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => WhishlistCreateNestedManyWithoutUsersInput, {
+    nullable: true,
+  })
+  whishlists?: WhishlistCreateNestedManyWithoutUsersInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => TripCreateNestedManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => TripCreateNestedManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => TripCreateNestedManyWithoutUsersInput, {
+    nullable: true,
+  })
+  trips?: TripCreateNestedManyWithoutUsersInput;
 }
 
 export { UserCreateInput as UserCreateInput };
